@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lamp - IoT Control</title>
+    <style>
+        /* RESET e ESTILOS GLOBAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* GRID PRINCIPAL - Layout em 3 colunas */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* SISTEMA DE GRID (Estrutura invisível organizadora) */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* ========== LOGOTIPO (Formas Geométricas - Estabilidade) ========== */
+        .logo-area {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .logo {
+            display: inline-block;
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        /* Ícone geométrico: círculo + retângulos (estabilidade tecnológica) */
+        .logo-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo-rect {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            position: absolute;
+            top: 35px;
+            left: 35px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-rect-small {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+        }
+
+        .logo-text {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo-text span {
+            color: #667eea;
+            font-size: 12px;
+            display: block;
+        }
+
+        /* ========== LÂMPADA ========== */
+        .lamp-area {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .lamp {
+            font-size: 120px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .lamp:hover {
+            transform: scale(1.05);
+        }
+
+        .lamp-status {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            background: #e9ecef;
+        }
+
+        /* ========== CONTROLES (Botões) ========== */
+        .controls-area {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-on {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245,87,108,0.3);
+        }
+
+        .btn-off {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79,172,254,0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* ========== FOOTER COM INFORMAÇÕES ========== */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* RESPONSIVIDADE (Grid se adapta) */
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SISTEMA DE GRID: 3 colunas harmoniosas -->
+        <div class="grid-layout">
+            
+            <!-- COLUNA 1: LOGOTIPO -->
+            <div class="logo-area">
+                <div class="logo">
+                    <div class="logo-circle">
+                        <div class="logo-rect"></div>
+                        <div class="logo-rect-small"></div>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    Smart IoT<br>
+                    <span>Confiabilidade em cada byte</span>
+                </div>
+                <p style="font-size: 11px; margin-top: 10px; color: #888;">
+                    ✓ Formas geométricas = Estabilidade
+                </p>
+            </div>
+            
+            <!-- COLUNA 2: LÂMPADA -->
+            <div class="lamp-area">
+                <div class="lamp" id="lamp">
+                    💡
+                </div>
+                <div class="lamp-status" id="status">
+                    Status: Desligada
+                </div>
+                <p style="font-size: 12px; margin-top: 10px; color: #888;">
+                    Clique na lâmpada ou use os botões
+                </p>
+            </div>
+            
+            <!-- COLUNA 3: BOTÕES DE CONTROLE -->
+            <div class="controls-area">
+                <div class="btn-group">
+                    <button class="btn-on" id="btnOn">
+                        🔘 LIGAR
+                    </button>
+                    <button class="btn-off" id="btnOff">
+                        ⚪ DESLIGAR
+                    </button>
+                </div>
+                <p style="font-size: 11px; margin-top: 20px; color: #888;">
+                    Design baseado em Grid CSS<br>
+                    Linhas retas = Estabilidade Tecnológica
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>Sprint 2 - UI, Grids e Identidade Visual</strong><br>
+            Logotipo geométrico (estabilidade) | Grid CSS 3 colunas | Anti-aliasing aplicado
+        </div>
+    </div>
+
+    <script>
+        // LÓGICA JAVASCRIPT DA LÂMPADA
+        const lamp = document.getElementById('lamp');
+        const statusDiv = document.getElementById('status');
+        const btnOn = document.getElementById('btnOn');
+        const btnOff = document.getElementById('btnOff');
+        
+        let isOn = false;
+        
+        function ligar() {
+            isOn = true;
+            lamp.style.filter = 'drop-shadow(0 0 20px rgba(255,200,0,0.8))';
+            lamp.style.opacity = '1';
+            statusDiv.innerHTML = 'Status: 💛 LIGADA 💛';
+            statusDiv.style.background = '#fff3cd';
+            statusDiv.style.color = '#856404';
+        }
+        
+        function desligar() {
+            isOn = false;
+            lamp.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.2))';
+            lamp.style.opacity = '0.7';
+            statusDiv.innerHTML = 'Status: ⚫ DESLIGADA ⚫';
+            statusDiv.style.background = '#e9ecef';
+            statusDiv.style.color = '#6c757d';
+        }
+        
+        btnOn.addEventListener('click', ligar);
+        btnOff.addEventListener('click', desligar);
+        lamp.addEventListener('click', () => {
+            if (isOn) {
+                desligar();
+            } else {
+                ligar();
+            }
+        });
+        
+        // Inicialização
+        desligar();
+    </script>
+</body>
+</html>
